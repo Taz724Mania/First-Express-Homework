@@ -15,10 +15,12 @@ const express = require('express')
 const app = express()
 
 
-    app.get('/magic/:question', (res, req) => {
-        const question = req.params.question
+    app.get('/magic/:question', (req, res) => {
+        const question = req.params.question 
         
-        const decodedQuestion = decodeURIComponent(question)
+        if (!question) {
+            res.send('No question asked!');
+          }
         
         const possibleResponses = ["It is certain", "It is decidedly so", "Without a doubt", "Yes definitely","You may rely on it", "As I see it yes", "Most likely", "Outlook good","Yes", "Signs point to yes", "Reply hazy try again", "Ask again later","Better not tell you now", "Cannot predict now", "Concentrate and ask again","Don't count on it", "My reply is no", "My sources say no","Outlook not so good", "Very doubtful"]
         
@@ -27,14 +29,12 @@ const app = express()
         const randomResponse = possibleResponses[randomIndex];
 
         const questionAndResponse = {
-            question: decodedQuestion,
+            question: question,
             response: randomResponse
         }
         
-    res.send(`<h1>${questionAndResponse.question}</h1><h1>${questionAndResponse.response}</h1>`);
+    res.send(`<h1>${questionAndResponse.question}</h1><h2>${questionAndResponse.response}</h2>`);
 
 })
 
-app.listen(3000, (res, req) => {
-    console.log('Hello, Sweetie')
-})
+app.listen(3000, () => {console.log('Hello, Sweetie')})
